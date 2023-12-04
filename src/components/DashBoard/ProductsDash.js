@@ -465,7 +465,7 @@ const ProductsDash = () => {
     } else {
       const data = {
         dimension: OfferDimension,
-        discount: OfferDiscount,
+        discount: 100 - OfferDiscount,
         product_id: ProductID,
       };
       dispatch(AddOffer(data))
@@ -1040,7 +1040,7 @@ const ProductsDash = () => {
             </div>
             <div className="col-12 mt-5">
               <div className="p-float-label w-full p-fluid">
-                <InputText className={`${OfferDiscount?.length <= 0 ? "p-invalid" : ""}`} id="discount" value={OfferDiscount} onChange={(e) => setOfferDiscount(e.target.value)}/>
+                <InputText className={`${OfferDiscount?.length <= 0 ? "p-invalid" : ""}`} max={100} id="discount" value={OfferDiscount} onChange={(e) => setOfferDiscount(e.target.value)}/>
                 <label htmlFor="discount">Discount</label>
               </div>
             </div>
