@@ -119,7 +119,6 @@ export const UPdateService = createAsyncThunk(
               "Content-Type": "multipart/form-data",
               Authorization: `Bearer ${Cookies.get("Aprint_Dash_Token")}`,
               "Cache-Control": "no-cache",
-              // ...resD.getHeaders(),
             },
           }
         )
@@ -443,30 +442,76 @@ export const DeleteHeader = createAsyncThunk(
   }
 );
 
-// export const AddFooter = createAsyncThunk(
-//   "products/AddFooter",
-//   async (resD, thunkAPI) => {
-//     const { rejectWithValue } = thunkAPI;
-//     try {
-//       const data = await axios
-//         .post(
-//           `${process.env.REACT_APP_BACKEND_API}dashboard/footers`,
-//           { ...resD },
-//           {
-//             headers: {
-//               Accept: "application/json",
-//               "Content-Type": "multipart/form-data",
-//               Authorization: `Bearer ${Cookies.get("Aprint_Dash_Token")}`,
-//             },
-//           }
-//         )
-//         .then((res) => res.data);
-//       return data;
-//     } catch (err) {
-//       return rejectWithValue(err.message);
-//     }
-//   }
-// );
+// *NOTE - create offer 
+export const AddOffer = createAsyncThunk(
+  "products/AddOffer",
+  async (resD, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const data = await axios
+        .post(
+          `${process.env.REACT_APP_BACKEND_API}dashboard/offers`,
+          { ...resD },
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${Cookies.get("Aprint_Dash_Token")}`,
+            },
+          }
+        )
+        .then((res) => res.data);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+export const DeleteOffer = createAsyncThunk(
+  "products/DeleteOffer",
+  async (id, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const data = await axios
+        .delete(
+          `${process.env.REACT_APP_BACKEND_API}dashboard/offers/${id}`,
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${Cookies.get("Aprint_Dash_Token")}`,
+            },
+          }
+        )
+        .then((res) => res.data);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+export const UpdateOffers = createAsyncThunk(
+  "products/UpdateOffers",
+  async (resD, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const data = await axios.post(
+        `${process.env.REACT_APP_BACKEND_API}dashboard/offers/${resD.offer_id}` ,
+        { ...resD, _method: "put" },
+          { headers: {
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${Cookies.get("Aprint_Dash_Token")}`,
+            },
+          }
+        )
+        .then((res) => res.data);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
 
 export const UpdateFooter = createAsyncThunk(
   "products/UpdateFooter",
@@ -609,8 +654,6 @@ export const DeleteOptions = createAsyncThunk(
   }
 );
 
-
-
 export const UpdateOptions = createAsyncThunk(
   "products/UpdateOptions",
   async (resD, thunkAPI) => {
@@ -635,7 +678,6 @@ export const UpdateOptions = createAsyncThunk(
     }
   }
 );
-
 
 export const AddNestedOfOptions = createAsyncThunk(
   "products/AddNestedOfOptions",
@@ -702,7 +744,6 @@ const ProductsSlice = createSlice({
       state.isProductLoading = false;
     },
     // getServices
-
     [getServices.pending]: (state, action) => {
       state.isProductLoading = true;
     },
@@ -724,14 +765,12 @@ const ProductsSlice = createSlice({
     [AddServices.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [UPdateService.pending]: (state, action) => {
       state.isProductLoading = true;
     },
     [UPdateService.fulfilled]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [UPdateService.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
@@ -761,9 +800,6 @@ const ProductsSlice = createSlice({
       state.isProductLoading = true;
     },
     [DeleteProduct.fulfilled]: (state, action) => {
-      // state.Products = state.Products.filter(
-      //   (ele) => ele.id !== action.meta.arg
-      // );
       state.isProductLoading = false;
     },
     [DeleteProduct.rejected]: (state, action) => {
@@ -829,7 +865,6 @@ const ProductsSlice = createSlice({
     [UPdateOrders.fulfilled]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [UPdateOrders.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
@@ -840,7 +875,6 @@ const ProductsSlice = createSlice({
       state.isProductLoading = false;
       state.ServicesPaymentArr = action.payload.data;
     },
-
     [getServicessPayment.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
@@ -851,7 +885,6 @@ const ProductsSlice = createSlice({
       state.isProductLoading = false;
       state.ProdcutsPaymentArr = action.payload.data;
     },
-
     [getProductsPayment.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
@@ -862,11 +895,9 @@ const ProductsSlice = createSlice({
     [AddHeader.fulfilled]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [AddHeader.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
-
     // DeleteHeader
     [DeleteHeader.pending]: (state, action) => {
       state.isProductLoading = true;
@@ -874,22 +905,18 @@ const ProductsSlice = createSlice({
     [DeleteHeader.fulfilled]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [DeleteHeader.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [UpdateFooter.pending]: (state, action) => {
       state.isProductLoading = true;
     },
     [UpdateFooter.fulfilled]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [UpdateFooter.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
-
     // DeleteHeader
     [Deletefooter.pending]: (state, action) => {
       state.isProductLoading = true;
@@ -897,22 +924,47 @@ const ProductsSlice = createSlice({
     [Deletefooter.fulfilled]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [Deletefooter.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [AddSection.pending]: (state, action) => {
       state.isProductLoading = true;
     },
     [AddSection.fulfilled]: (state, action) => {
       state.isProductLoading = false;
     },
-
     [AddSection.rejected]: (state, action) => {
       state.isProductLoading = false;
     },
+    // Offer Reducers
+    [AddOffer.pending]: (state, action) => {
+      state.isProductLoading = true;
+    },
+    [AddOffer.fulfilled]: (state, action) => {
+      state.isProductLoading = false;
+    },
+    [AddOffer.rejected]: (state, action) => {
+      state.isProductLoading = false;
+    },
+    [DeleteOffer.pending]: (state, action) => {
+      state.isProductLoading = true;
+    },
+    [DeleteOffer.fulfilled]: (state, action) => {
+      state.isProductLoading = false;
+    },
+    [DeleteOffer.rejected]: (state, action) => {
+      state.isProductLoading = false;
+    },
+    [UpdateOffers.pending]: (state, action) => {
+      state.isProductLoading = true;
+    },
+    [UpdateOffers.fulfilled]: (state, action) => {
+      state.isProductLoading = false;
+    },
 
+    [UpdateOffers.rejected]: (state, action) => {
+      state.isProductLoading = false;
+    },
     // DeleteHeader
     [DeleteSection.pending]: (state, action) => {
       state.isProductLoading = true;
