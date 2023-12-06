@@ -486,7 +486,7 @@ const ProductsDash = () => {
     } else {
       const data = {
         dimension: OfferDimension,
-        discount: OfferDiscount,
+        discount: 100 - OfferDiscount,
         offer_id: SelectOfferId,
       };
       dispatch(UpdateOffers(data))
@@ -1059,7 +1059,7 @@ const ProductsDash = () => {
 
           <DataTable paginator selectionMode="single" value={OffersTabel} className={`${styles.dataTabel}`} dataKey="id" scrollable scrollHeight="100vh" filterDisplay="row" responsiveLayout="scroll"tableStyle={{ minWidth: "50rem"}} rows={10} >
             <Column header=" Dimension " field="dimension"  style={{ maxWidth: "7rem" }} />
-            <Column header=" Discount "  field="discount" style={{ maxWidth: "7rem" }} />
+            <Column header="Discount" field="discount"  style={{ maxWidth: "7rem" }} body={(rowData) => ( <> {rowData.discount}% </> )} /> 
             <Column header=" Status " body={OfferStatusBody} style={{ maxWidth: "7rem" }} />
           </DataTable>
         </Dialog>
