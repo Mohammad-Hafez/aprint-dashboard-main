@@ -628,6 +628,7 @@ const ProductsDash = () => {
   const [option_type, setOption_type] = useState(null);
   const [SelectOption, setSelectOption] = useState(null);
   const [AddNestedOfOption, setAddNestedOfOption] = useState(false);
+  const [SubOptionPreview, setSubOptionPreview] = useState(false)
   const ClearOptions = () => {
     setOptionDialog(false);
     setOptionTitle("");
@@ -641,6 +642,7 @@ const ProductsDash = () => {
     setSelectOption(null);
     setAddNestedOfOption(false);
     setOptionsNum(0);
+    setSubOptionPreview(false);
   };
 
   const OptionBody = (rowData) => {
@@ -692,6 +694,8 @@ const ProductsDash = () => {
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>
         <button className={`${styles.TabelButton} ${styles.Edite}`}
           onClick={() => {
+            console.log(OptionsNum);
+            setSubOptionPreview(true);
             setOptionsNum(OptionsNum + 1);
             setAddNestedOfOption(true);
             setProductId(rowData.id);
@@ -764,7 +768,6 @@ const ProductsDash = () => {
       showError("Check name and Price Type");
     } else {
       const data = OptionImage ? {
-            _method: "put",
             name: OptionTitle,
             price: OptionPrice,
             description: OptionDescription,
@@ -773,13 +776,13 @@ const ProductsDash = () => {
             product_id: ProductID,
           }
         : {
-            _method: "put",
             name: OptionTitle,
             price: OptionPrice,
             description: OptionDescription,
             type: option_type.id,
             product_id: ProductID,
           };
+          console.log(data);
       dispatch(UpdateOptions(data))
         .unwrap()
         .then((res) => {
@@ -794,7 +797,7 @@ const ProductsDash = () => {
   };
 
   const AddSubOptions = () => {
-    if (OptionsNum > 1) {
+    if (OptionsNum % 2 === 0) {
       if (OptionTitle.length <= 0 || !option_type) {
         showError("Check name and Price Type");
       } else {
@@ -1085,7 +1088,7 @@ const ProductsDash = () => {
             </button>
           </div>
 
-          <DataTable paginator selectionMode="single"value={SectionTabel}className={`${styles.dataTabel}`}dataKey="id"scrollablescrollHeight="100vh"filterDisplay="row"responsiveLayout="scroll"tableStyle={{ minWidth: "50rem" }}rows={10}>
+          <DataTable paginator selectionMode="single"value={SectionTabel}className={`${styles.dataTabel}`}dataKey="id" scrollablescrollheight="100vh" filterDisplay="row"responsiveLayout="scroll"tableStyle={{ minWidth: "50rem" }}rows={10}>
             <Column field="name" header=" Name " style={{ maxWidth: "7rem" }} />
             <Column field="type" header=" Type " style={{ maxWidth: "7rem" }} />
             <Column body={OptionBody} header=" Option "style={{ maxWidth: "7rem" }}/>
@@ -1095,7 +1098,7 @@ const ProductsDash = () => {
         <Dialog visible={OptionDialog}style={{ maxWidth: "90vw" }}onHide={() => {ClearOptions()}}>
           {/* ------------------------------------------------------------- */}
           {AddNestedOfOption ? (<>
-              {OptionsNum > 1 ? (<>
+              {OptionsNum % 2 === 0 ? (<>
                   <h1 className="main-two">Add List Of Option</h1>
                   <form className={`grid justify-content-center align-items-center ${styles.Dialog_Div}`}>
                     <div className="col-12 md:col-4 mt-5">
@@ -1165,7 +1168,6 @@ const ProductsDash = () => {
                     <label htmlFor="OptionTitle"> Title</label>
                   </span>
                 </div>
-
                 <div className="col-12 md:col-4  mt-5">
                   <span className="p-float-label">
                     <InputNumber minFractionDigits={2} maxFractionDigits={5} id="OptionPrice" value={OptionPrice} onValueChange={(e) => setOptionPrice(e.value)} rows={5} cols={30} />
@@ -1203,7 +1205,7 @@ const ProductsDash = () => {
                 )}
               </form>
               <div className="flex justify-content-center align-items-center">
-                <button className={`${styles.addBTN} mt-5 text-center`} onClick={(id) => updateOption(id)} >
+                <button className={`${styles.addBTN} mt-5 text-center`} onClick={() => updateOption()} >
                   edit
                 </button>
               </div>
@@ -1261,7 +1263,7 @@ const ProductsDash = () => {
               </div>
             </>
           )}
-          {OptionsNum === 1 ? (
+          {OptionsNum % 2 === 1 ? (
             <DataTable paginator selectionMode="single" value={OptionTabel} className={`${styles.dataTabel}`} dataKey="id" scrollable scrollHeight="100vh" filterDisplay="row" responsiveLayout="scroll" tableStyle={{ minWidth: "50rem" }} rows={10}>
               <Column field="name" header= "Title" style={{ maxWidth: "7rem" }} />
               <Column body={RealOptionBody} header= "Edit" style={{ maxWidth: "7rem" }} />

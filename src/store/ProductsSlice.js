@@ -442,7 +442,6 @@ export const DeleteHeader = createAsyncThunk(
   }
 );
 
-// *NOTE - create offer 
 export const AddOffer = createAsyncThunk(
   "products/AddOffer",
   async (resD, thunkAPI) => {
@@ -659,12 +658,10 @@ export const UpdateOptions = createAsyncThunk(
   async (resD, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const data = await axios
-        .post(
-          `${process.env.REACT_APP_BACKEND_API}dashboard/options/${resD.product_id}`,
-          { ...resD },
-          {
-            headers: {
+      console.log(resD);
+      const data = await axios.post(`${process.env.REACT_APP_BACKEND_API}dashboard/options/${resD.product_id}`,
+          { ...resD , _method: "put" },
+          { headers: {
               Accept: "application/json",
               "Content-Type": "multipart/form-data",
               Authorization: `Bearer ${Cookies.get("Aprint_Dash_Token")}`,
