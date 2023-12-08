@@ -628,7 +628,6 @@ const ProductsDash = () => {
   const [option_type, setOption_type] = useState(null);
   const [SelectOption, setSelectOption] = useState(null);
   const [AddNestedOfOption, setAddNestedOfOption] = useState(false);
-  const [SubOptionPreview, setSubOptionPreview] = useState(false)
   const ClearOptions = () => {
     setOptionDialog(false);
     setOptionTitle("");
@@ -642,10 +641,11 @@ const ProductsDash = () => {
     setSelectOption(null);
     setAddNestedOfOption(false);
     setOptionsNum(0);
-    setSubOptionPreview(false);
   };
 
   const OptionBody = (rowData) => {
+    // *FIXME - i need children of third subOption from backend...
+    console.log(rowData);
     return (
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>
         <button className={`${styles.TabelButton} ${styles.Edite}`}
@@ -694,8 +694,6 @@ const ProductsDash = () => {
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>
         <button className={`${styles.TabelButton} ${styles.Edite}`}
           onClick={() => {
-            console.log(OptionsNum);
-            setSubOptionPreview(true);
             setOptionsNum(OptionsNum + 1);
             setAddNestedOfOption(true);
             setProductId(rowData.id);
@@ -708,7 +706,7 @@ const ProductsDash = () => {
     );
   };
 
-  const OptionImageBody = (rowData) => <img src={rowData.image} alt={rowData.name} width={50} height={50} />;
+  const OptionImageBody = (rowData) => <img src={rowData.image} alt={rowData.name} width={50} height={50} /> ;
 
   const OptionsType = [
     { name: "Price $", id: 1 },
@@ -782,7 +780,6 @@ const ProductsDash = () => {
             type: option_type.id,
             product_id: ProductID,
           };
-          console.log(data);
       dispatch(UpdateOptions(data))
         .unwrap()
         .then((res) => {
@@ -819,7 +816,7 @@ const ProductsDash = () => {
             }
           });
       }
-    } else {
+    }else {
       const data = {
         name: OptionTitle,
         parent_id: ProductID,
@@ -1277,7 +1274,7 @@ const ProductsDash = () => {
               <Column field="description" header="Description" style={{ maxWidth: "7rem" }} />
               <Column body={OptionImageBody} header="Image" style={{ maxWidth: "7rem" }} />
               <Column body={RealOptionBody} header="Edit" style={{ maxWidth: "7rem" }} />
-              <Column body={AddListOption} header=" list Option " style={{ maxWidth: "7rem" }} />
+              {OptionsNum < 3 ? <Column body={AddListOption} header=" list Option " style={{ maxWidth: "7rem" }} /> : null}
               <Column header=" Status " body={optionsStatusBody} style={{ maxWidth: "7rem" }} />
             </DataTable>
           )}
