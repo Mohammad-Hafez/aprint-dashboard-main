@@ -465,7 +465,7 @@ const ProductsDash = () => {
     } else {
       const data = {
         dimension: OfferDimension,
-        discount: 100 - OfferDiscount,
+        discount: OfferDiscount,
         product_id: ProductID,
       };
       dispatch(AddOffer(data))
@@ -486,7 +486,7 @@ const ProductsDash = () => {
     } else {
       const data = {
         dimension: OfferDimension,
-        discount: 100 - OfferDiscount,
+        discount:  OfferDiscount,
         offer_id: SelectOfferId,
       };
       dispatch(UpdateOffers(data))
