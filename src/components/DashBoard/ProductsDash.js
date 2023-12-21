@@ -644,8 +644,6 @@ const ProductsDash = () => {
   };
 
   const OptionBody = (rowData) => {
-    // *FIXME - i need children of third subOption from backend...
-    console.log(rowData);
     return (
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>
         <button className={`${styles.TabelButton} ${styles.Edite}`}
@@ -662,7 +660,6 @@ const ProductsDash = () => {
       </div>
     );
   };
-
   const RealOptionBody = (rowData) => {
     return (
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>

@@ -658,7 +658,6 @@ export const UpdateOptions = createAsyncThunk(
   async (resD, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      console.log(resD);
       const data = await axios.post(`${process.env.REACT_APP_BACKEND_API}dashboard/options/${resD.product_id}`,
           { ...resD , _method: "put" },
           { headers: {
