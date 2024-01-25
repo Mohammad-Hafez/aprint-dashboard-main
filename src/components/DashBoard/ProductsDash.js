@@ -151,9 +151,9 @@ const ProductsDash = () => {
         <button className={`${styles.TabelButton} ${styles.Cancel}`} onClick={() => { confirm(rowData.id)}}>
           <MdCancel />
         </button>
-        <button className={`${styles.TabelButton} ${styles.add}`} onClick={()=>{console.log(rowData)}}>
+        {/* <button className={`${styles.TabelButton} ${styles.add}`} onClick={()=>{console.log(rowData)}}>
         <MdLibraryAdd/>
-        </button>
+        </button> */}
       </div>
     );
   };
