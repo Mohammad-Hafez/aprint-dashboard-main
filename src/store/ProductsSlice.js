@@ -401,11 +401,12 @@ export const AddHeader = createAsyncThunk(
   "products/AddHeader",
   async (resD, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
+    console.log(resD);
     try {
       const data = await axios
         .post(
           `${process.env.REACT_APP_BACKEND_API}dashboard/headers`,
-          { ...resD },
+          {...resD },
           {
             headers: {
               Accept: "application/json",

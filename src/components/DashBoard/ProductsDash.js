@@ -21,6 +21,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { Icon } from 'react-icons-kit'
 import {plus} from 'react-icons-kit/icomoon/plus'
 import { CiEdit } from "react-icons/ci";
+import { MdLibraryAdd } from "react-icons/md";
 
 const modules = {
   toolbar: [
@@ -150,6 +151,9 @@ const ProductsDash = () => {
         <button className={`${styles.TabelButton} ${styles.Cancel}`} onClick={() => { confirm(rowData.id)}}>
           <MdCancel />
         </button>
+        <button className={`${styles.TabelButton} ${styles.add}`} onClick={()=>{console.log(rowData)}}>
+        <MdLibraryAdd/>
+        </button>
       </div>
     );
   };
@@ -203,7 +207,7 @@ const ProductsDash = () => {
               dispatch(getProducts())
                 .unwrap()
                 .then(() => {
-                  ClearData();
+                  // ClearData();
                   showSuccess();
                 });
             } else {
@@ -223,7 +227,7 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             dispatch(getProducts());
-            ClearData();
+            // ClearData();
             showSuccess();
           } else {
             res.errors.map((e) => showError(e));
@@ -339,7 +343,6 @@ const ProductsDash = () => {
           }}
         >
           <MdCancel />
-          clicccccc
         </button>
       </div>
     );
@@ -351,7 +354,7 @@ const ProductsDash = () => {
       const data = {
         title: headerTitle,
         description: Headerdescription,
-        lines: headerLines,
+        lines: [headerLines],
         product_id: ProductID,
       };
 
@@ -473,7 +476,7 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            ClearOffers();
+            // ClearOffers();
           } else {
             showError("Some thing went wrong");
           }
@@ -494,7 +497,7 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            ClearOffers();
+            // ClearOffers();
           } else {
             showError("Some thing went wrong");
           }
@@ -521,7 +524,7 @@ const ProductsDash = () => {
               .then((res) => {
                 if (res.success) {
                   showSuccess();
-                  ClearOffers();
+                  // ClearOffers();
                 } else {
                   showError("Some thing went wrong");
                 }
@@ -581,7 +584,7 @@ const ProductsDash = () => {
               .then((res) => {
                 if (res.success) {
                   showSuccess();
-                  ClearSections();
+                  // ClearSections();
                 } else {
                   showError("Some thing went wrong");
                 }
@@ -609,7 +612,7 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            ClearSections();
+            // ClearSections();
           } else {
             showError("Some thing went wrong");
           }
@@ -637,7 +640,6 @@ const ProductsDash = () => {
     setOptionTabel([]);
     setSection_id(null);
     setOption_type(null);
-    ClearSections();
     setSelectOption(null);
     setAddNestedOfOption(false);
     setOptionsNum(0);
@@ -729,7 +731,7 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            ClearOptions();
+            // ClearOptions();
           } else {
             showError("something Went wrong");
           }
@@ -745,7 +747,7 @@ const ProductsDash = () => {
               .then((res) => {
                 if (res.success) {
                   showSuccess();
-                  ClearOptions();
+                  // ClearOptions();
                 } else {
                   showError("Some thing went wrong");
                 }
@@ -782,7 +784,7 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            ClearOptions();
+            // ClearOptions();
           } else {
             showError("something Went wrong");
           }
@@ -807,7 +809,7 @@ const ProductsDash = () => {
           .then((res) => {
             if (res.success) {
               showSuccess();
-              ClearOptions();
+              // ClearOptions();
             } else {
               showError("something Went wrong");
             }
@@ -823,7 +825,7 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            ClearOptions();
+            // ClearOptions();
           } else {
             showError("something Went wrong");
           }
