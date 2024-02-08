@@ -1,7 +1,7 @@
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import styles from "../../../styles/Tabel.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Toast } from "primereact/toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "primereact/button";

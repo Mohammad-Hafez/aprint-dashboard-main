@@ -21,7 +21,6 @@ import { InputNumber } from "primereact/inputnumber";
 import { Icon } from 'react-icons-kit'
 import {plus} from 'react-icons-kit/icomoon/plus'
 import { CiEdit } from "react-icons/ci";
-import { MdLibraryAdd } from "react-icons/md";
 
 const modules = {
   toolbar: [
@@ -207,7 +206,7 @@ const ProductsDash = () => {
               dispatch(getProducts())
                 .unwrap()
                 .then(() => {
-                  // ClearData();
+                  ClearData();
                   showSuccess();
                 });
             } else {
@@ -227,7 +226,7 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             dispatch(getProducts());
-            // ClearData();
+            ClearData();
             showSuccess();
           } else {
             res.errors.map((e) => showError(e));
@@ -553,44 +552,44 @@ const ProductsDash = () => {
     setAddNestedOfOption(false);
     setOptionsNum(0);
   };
+
+  const showSections = (rowData)=>{
+    dispatch(getOneProduct(rowData.id)).unwrap()
+    .then((res) => {
+      if (res.data.sections) {
+        setSectionTabel([...res.data.sections]);
+      }
+      setProductId(res.data.id);
+      setSectionDialog(true);
+    });
+  }
+
   const SectionsBody = (rowData) => {
     return (
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>
-        <button className={`${styles.TabelButton} ${styles.Edite}`}
-          onClick={() => {
-            dispatch(getOneProduct(rowData.id)).unwrap()
-              .then((res) => {
-                if (res.data.sections) {
-                  setSectionTabel([...res.data.sections]);
-                }
-                setProductId(res.data.id);
-                setSectionDialog(true);
-              });
-          }}
-        >
+        <button className={`${styles.TabelButton} ${styles.Edite}`}  onClick={() => showSections(rowData)} >
           <CgEye />
         </button>
       </div>
     );
   };
   // SectionStatusBody
+  const deleteSpecificSection =(rowData)=>{
+    dispatch(DeleteSection(rowData.id))
+    .unwrap()
+    .then((res) => {
+      if (res.success) {
+        showSuccess();
+        // ClearSections();
+      } else {
+        showError("Some thing went wrong");
+      }
+    });
+  }
   const SectionStatusBody = (rowData) => {
     return (
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>
-        <button className={`${styles.TabelButton} ${styles.Cancel}`}
-          onClick={() => {
-            dispatch(DeleteSection(rowData.id))
-              .unwrap()
-              .then((res) => {
-                if (res.success) {
-                  showSuccess();
-                  // ClearSections();
-                } else {
-                  showError("Some thing went wrong");
-                }
-              });
-          }}
-        >
+        <button className={`${styles.TabelButton} ${styles.Cancel}`} onClick={() => deleteSpecificSection(rowData)} >
           <MdCancel />
         </button>
       </div>
@@ -621,6 +620,7 @@ const ProductsDash = () => {
   };
 
   // OptionBody
+  
   const [OptionDialog, setOptionDialog] = useState(false);
   const [OptionTitle, setOptionTitle] = useState("");
   const [OptionPrice, setOptionPrice] = useState(0);
@@ -644,19 +644,19 @@ const ProductsDash = () => {
     setAddNestedOfOption(false);
     setOptionsNum(0);
   };
+ 
+  const showOptions =(rowData)=>{
+    setOptionDialog(true);
+    if (rowData.options) {
+      setOptionTabel(rowData.options);
+      setSection_id(rowData.id);
+    }
+  }
 
   const OptionBody = (rowData) => {
     return (
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>
-        <button className={`${styles.TabelButton} ${styles.Edite}`}
-          onClick={() => {
-            setOptionDialog(true);
-            if (rowData.options) {
-              setOptionTabel(rowData.options);
-              setSection_id(rowData.id);
-            }
-          }}
-        >
+        <button className={`${styles.TabelButton} ${styles.Edite}`} onClick={() => showOptions(rowData)} >
           <CgEye />
         </button>
       </div>
@@ -688,17 +688,17 @@ const ProductsDash = () => {
     );
   };
 
+  const showSubOption =(rowData)=>{
+    setOptionsNum(OptionsNum + 1);
+    setAddNestedOfOption(true);
+    setProductId(rowData.id);
+    setOptionTabel(rowData.childrens);
+  }
+
   const AddListOption = (rowData) => {
     return (
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>
-        <button className={`${styles.TabelButton} ${styles.Edite}`}
-          onClick={() => {
-            setOptionsNum(OptionsNum + 1);
-            setAddNestedOfOption(true);
-            setProductId(rowData.id);
-            setOptionTabel(rowData.childrens);
-          }}
-        >
+        <button className={`${styles.TabelButton} ${styles.Edite}`} onClick={() => showSubOption(rowData) } >
           <CgEye />
         </button>
       </div>
@@ -712,6 +712,10 @@ const ProductsDash = () => {
     { name: "Percent %", id: 2 },
   ];
 
+  const addOptionToTable = (data) => {
+    const newTable = [...OptionTabel, data];
+    setOptionTabel(newTable);
+  };
   const CreateOption = () => {
     setAddNestedOfOption(false);
     if (OptionTitle.length <= 0 || !option_type) {
@@ -731,35 +735,48 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            // ClearOptions();
+            addOptionToTable(data);
           } else {
             showError("something Went wrong");
           }
         });
     }
   };
+  const removeOptionFromTable = (productId) => {
+    const updatedTable = OptionTabel.filter(option => option.product_id !== productId);
+    setOptionTabel(updatedTable);
+  };
+  const delSpecificOption = (rowData) => {
+    dispatch(DeleteOptions(rowData.id))
+      .unwrap()
+      .then((res) => {
+        if (res.success) {
+          showSuccess();
+          // removeOptionFromTable(rowData.id);
+          ClearOptions();
+        } else {
+          showError("Something went wrong");
+        }
+      });
+  };
   const optionsStatusBody = (rowData) => {
     return (
       <div className={styles.TB_Content} style={{ justifyContent: "center" }}>
-        <button className={`${styles.TabelButton} ${styles.Cancel}`} onClick={() => {
-            dispatch(DeleteOptions(rowData.id))
-              .unwrap()
-              .then((res) => {
-                if (res.success) {
-                  showSuccess();
-                  // ClearOptions();
-                } else {
-                  showError("Some thing went wrong");
-                }
-              });
-          }}
-        >
+        <button className={`${styles.TabelButton} ${styles.Cancel}`} onClick={() => delSpecificOption(rowData)} >
           <MdCancel />
         </button>
       </div>
     );
   };
-
+  const updateOptionInTable = (updatedOption) => {
+    const updatedTable = OptionTabel.map(option => {
+      if (option.id === updatedOption.product_id) {
+        return updatedOption;
+      }
+      return option;
+    });
+    setOptionTabel(updatedTable);
+  };
   const updateOption = () => {
     if (OptionTitle.length <= 0 || !option_type) {
       showError("Check name and Price Type");
@@ -784,7 +801,8 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            // ClearOptions();
+            // updateOptionInTable(data)
+            ClearOptions();
           } else {
             showError("something Went wrong");
           }
@@ -809,7 +827,7 @@ const ProductsDash = () => {
           .then((res) => {
             if (res.success) {
               showSuccess();
-              // ClearOptions();
+              ClearOptions();
             } else {
               showError("something Went wrong");
             }

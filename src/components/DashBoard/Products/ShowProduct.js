@@ -1,5 +1,5 @@
 import { AiOutlineCheck } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import image from "../../../images/test.webp";
 import image2 from "../../../images/test2.webp";

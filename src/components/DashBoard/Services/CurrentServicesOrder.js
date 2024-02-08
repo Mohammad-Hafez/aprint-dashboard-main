@@ -10,10 +10,8 @@ import {
   UPdatecurrentOrders,
   getCurrentServicesOrders,
 } from "../../../store/ProductsSlice";
-import { CgEye } from "react-icons/cg";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import { InputTextarea } from "primereact/inputtextarea";
 const CurrentServicesOrder = () => {
