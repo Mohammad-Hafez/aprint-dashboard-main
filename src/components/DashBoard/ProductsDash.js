@@ -580,7 +580,7 @@ const ProductsDash = () => {
     .then((res) => {
       if (res.success) {
         showSuccess();
-        // ClearSections();
+        ClearSections();
       } else {
         showError("Some thing went wrong");
       }
@@ -611,7 +611,7 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            // ClearSections();
+            ClearSections();
           } else {
             showError("Some thing went wrong");
           }
@@ -643,6 +643,7 @@ const ProductsDash = () => {
     setSelectOption(null);
     setAddNestedOfOption(false);
     setOptionsNum(0);
+    ClearSections();
   };
  
   const showOptions =(rowData)=>{
@@ -742,17 +743,12 @@ const ProductsDash = () => {
         });
     }
   };
-  const removeOptionFromTable = (productId) => {
-    const updatedTable = OptionTabel.filter(option => option.product_id !== productId);
-    setOptionTabel(updatedTable);
-  };
   const delSpecificOption = (rowData) => {
     dispatch(DeleteOptions(rowData.id))
       .unwrap()
       .then((res) => {
         if (res.success) {
           showSuccess();
-          // removeOptionFromTable(rowData.id);
           ClearOptions();
         } else {
           showError("Something went wrong");
@@ -767,15 +763,6 @@ const ProductsDash = () => {
         </button>
       </div>
     );
-  };
-  const updateOptionInTable = (updatedOption) => {
-    const updatedTable = OptionTabel.map(option => {
-      if (option.id === updatedOption.product_id) {
-        return updatedOption;
-      }
-      return option;
-    });
-    setOptionTabel(updatedTable);
   };
   const updateOption = () => {
     if (OptionTitle.length <= 0 || !option_type) {
@@ -801,7 +788,6 @@ const ProductsDash = () => {
         .then((res) => {
           if (res.success) {
             showSuccess();
-            // updateOptionInTable(data)
             ClearOptions();
           } else {
             showError("something Went wrong");
